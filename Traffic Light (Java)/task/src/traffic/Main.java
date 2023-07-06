@@ -1,36 +1,95 @@
 package traffic;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
+    Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner1 = new Scanner(System.in);
+        Main main = new Main();
 
         System.out.println("Welcome to the traffic management system!");
 
-        System.out.print("Input the number of roads: ");
-        int numberOfRoads = scanner.nextInt();
+        main.getInput("Input the number of roads: ");
+        main.getInput("Input the interval: ");
+        main.clearScreen();
 
-        System.out.print("Input the interval: ");
-        int interval = scanner.nextInt();
-
-        int input;
+        String input;
         do {
-            printControlPanel();
-            input = scanner.nextInt();
+            main.printControlPanel();
+            input = scanner1.nextLine();
             switch (input) {
-                case 1 -> System.out.println("Road added");
-                case 2 -> System.out.println("Road deleted");
-                case 3 -> System.out.println("System opened");
+                case "1" -> System.out.println("Road added");
+                case "2" -> System.out.println("Road deleted");
+                case "3" -> System.out.println("System opened");
+                case "0" -> {
+                    System.out.println("Bye!");
+                    return;
+                }
+                default -> System.out.println("Incorrect option");
             }
-        } while (input != 0);
+
+            try {
+                scanner1.nextLine();
+                Thread.sleep(550);
+                main.clearScreen();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        } while (true);
     }
 
-    static void printControlPanel() {
+    void printControlPanel() {
         System.out.println("Menu:");
         System.out.println("1. Add road");
         System.out.println("2. Delete road");
         System.out.println("3. Open system");
         System.out.println("0. Quit");
+    }
+
+    void clearScreen() {
+        try {
+            var clearCommand = System.getProperty("os.name").contains("Windows")
+                ? new ProcessBuilder("cmd", "/c", "cls")
+                : new ProcessBuilder("clear");
+            clearCommand.inheritIO().start().waitFor();
+        }
+        catch (IOException | InterruptedException ignored) {}
+    }
+
+    void getInput(String message) {
+        String stringNumber;
+        int number;
+        try {
+            System.out.print(message);
+            stringNumber = scanner.nextLine();
+            number = Integer.parseInt(stringNumber);
+
+            if (number < 1) {
+               handleException();
+            }
+        }
+        catch(NumberFormatException ime) {
+            handleException();
+        }
+    }
+
+    void handleException() {
+        String stringNumber;
+        int number;
+
+        do {
+            try {
+                System.out.print("Error! Incorrect input. Try again: ");
+                stringNumber = scanner.nextLine();
+                number = Integer.parseInt(stringNumber);
+                if (number >= 1) {
+                    return;
+                }
+
+            } catch (NumberFormatException ignored) {}
+        } while (true);
     }
 }

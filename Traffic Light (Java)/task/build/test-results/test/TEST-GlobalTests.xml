@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="GlobalTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2023-07-05T09:23:25" hostname="0134" time="0.058">
+  <properties/>
+  <testcase name="start" classname="GlobalTests" time="0.058"/>
+  <system-out><![CDATA[?[1;31m
+Start test 1?[0m
+Welcome to the traffic management system!
+Input the number of roads: > 5
+Input the interval: > 3
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit
+> 0
+?[1;31m
+Start test 2?[0m
+?[1;31m
+Start test 3?[0m
+?[1;31m
+Start test 4?[0m
+?[1;31m
+Start test 5?[0m
+?[1;31m
+Start test 6?[0m
+?[1;31m
+Start test 7?[0m
+?[1;31m
+Start test 8?[0m
+?[1;31m
+Start test 9?[0m
+?[1;31m
+Start test 10?[0m
+?[1;31m
+Start test 11?[0m
+?[1;31m
+Start test 12?[0m
+?[1;31m
+Start test 13?[0m
+?[1;31m
+Start test 14?[0m
+?[1;31m
+Start test 15?[0m
+?[1;31m
+Start test 16?[0m
+?[1;31m
+Start test 17?[0m
+?[1;31m
+Start test 18?[0m
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -35,9 +35,7 @@ public class Main {
                 scanner1.nextLine();
                 Thread.sleep(550);
                 main.clearScreen();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            } catch (InterruptedException ignored) {}
         } while (true);
     }
 

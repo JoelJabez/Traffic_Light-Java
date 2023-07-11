@@ -52,24 +52,6 @@
 Bye!
 [1;31m
 Start test 4[0m
-*Welcome to the traffic management system!
-Input the number of roads: > 5
-Input the interval: > 3
-Menu:
-1. Add road
-2. Delete road
-3. Open system
-0. Quit
-> 3
-System opened
-> 
-Menu:
-1. Add road
-2. Delete road
-3. Open system
-0. Quit
-> 0
-Bye!
 [1;31m
 Start test 5[0m
 *Welcome to the traffic management system!
@@ -154,25 +136,17 @@
 Bye!
 [1;31m
 Start test 7[0m
-[1;31m
-Start test 8[0m
-[1;31m
-Start test 9[0m
-[1;31m
-Start test 10[0m
-[1;31m
-Start test 11[0m
-[1;31m
-Start test 12[0m
-[1;31m
-Start test 13[0m
-[1;31m
-Start test 14[0m
-[1;31m
-Start test 15[0m
-[1;31m
-Start test 16[0m
-[1;31m
-Start test 17[0m
-[1;31m
-Start test 18[0m
+*Welcome to the traffic management system!
+Input the number of roads: > 1
+Input the interval: > 1
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit
+> 3
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit

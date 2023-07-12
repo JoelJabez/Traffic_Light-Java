@@ -6,7 +6,8 @@ import java.io.IOException;
 public class TrafficLight {
 	Thread thread;
 	Scanner scanner = new Scanner(System.in);
-	String state = "";
+	String state = "Menu";
+	String exit = "";
 	int numberOfRoads;
 	int numberOfIntervals;
 	int time = 0;
@@ -19,38 +20,20 @@ public class TrafficLight {
 
 		String input;
 		do {
-			state = "Menu";
+			exit = "";
+
 			createThread();
 			thread.start();
-
 			clearScreen();
 			printControlPanel();
 
 			input = scanner.nextLine();
 			switch (input) {
-				case "1" -> {
-					System.out.println("Road added");
-					scanner.nextLine();
-				}
-				case "2" -> {
-					System.out.println("Road deleted");
-					scanner.nextLine();
-				}
-				case "3" -> {
-					String pattern = "";
-					boolean condition;
-					do {
-						createThread();
-						state = "System";
-						thread.start();
-
-						condition = scanner.hasNext(pattern);
-						sleep(1000);
-					} while (!condition);
-					clearScreen();
-				}
+				case "1" -> addRoad();
+				case "2" -> deleteRoad();
+				case "3" -> openSystem();
 				case "0" -> {
-					System.out.println("Bye!");
+					exit();
 					return;
 				}
 
@@ -59,9 +42,32 @@ public class TrafficLight {
 					scanner.nextLine();
 				}
 			}
-
-			sleep(550);
 		} while (true);
+	}
+
+	private void addRoad() {
+		System.out.println("Road added");
+		scanner.nextLine();
+	}
+
+	private void deleteRoad() {
+		System.out.println("Road deleted");
+		scanner.nextLine();
+	}
+
+	private void openSystem() {
+		exit = null;
+		state = "System";
+
+		createThread();
+		thread.start();
+
+		exit = scanner.nextLine();
+		state = "Menu";
+	}
+
+	private void exit() {
+		System.out.println("Bye!");
 	}
 
 	private void sleep(int time) {
@@ -72,11 +78,18 @@ public class TrafficLight {
 
 	private void createThread() {
 		thread = new Thread(() -> {
-			try {
-				Thread.sleep(1000);
+			if (state.equals("Menu")) {
 				time++;
+				sleep(1000);
+			} else if (state.equals("System")) {
+				while (!thread.isInterrupted()) {
+					if (exit != null) {
+						thread.interrupt();
+					}
 
-				if (state.equals("System")) {
+					sleep(1000);
+					time++;
+
 					clearScreen();
 
 					System.out.printf("! %ds. have passed since system startup !\n", time);
@@ -84,9 +97,8 @@ public class TrafficLight {
 					System.out.printf("! Interval: %d !\n", numberOfIntervals);
 					System.out.println("! Press \"Enter\" to open menu !");
 				}
-			} catch (InterruptedException ignored) {}
-		});
-		thread.setName("QueueThread");
+			}
+		}, "QueueThread");
 	}
 
 	void printControlPanel() {
@@ -103,8 +115,8 @@ public class TrafficLight {
 				? new ProcessBuilder("cmd", "/c", "cls")
 				: new ProcessBuilder("clear");
 			clearCommand.inheritIO().start().waitFor();
+		} catch (IOException | InterruptedException ignored) {
 		}
-		catch (IOException | InterruptedException ignored) {}
 	}
 
 	int getInput(String message) {
@@ -118,8 +130,7 @@ public class TrafficLight {
 			if (number < 1) {
 				return handleException();
 			}
-		}
-		catch(NumberFormatException ime) {
+		} catch (NumberFormatException ime) {
 			return handleException();
 		}
 		return number;
@@ -137,7 +148,8 @@ public class TrafficLight {
 					return number;
 				}
 
-			} catch (NumberFormatException ignored) {}
+			} catch (NumberFormatException ignored) {
+			}
 		} while (true);
 	}
 }

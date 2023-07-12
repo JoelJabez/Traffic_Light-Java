@@ -145,6 +145,27 @@
 3. Open system
 0. Quit
 > 3
+)! 2s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press "Enter" to open menu !
+)! 3s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press "Enter" to open menu !
+)! 4s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press "Enter" to open menu !
+)! 5s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press "Enter" to open menu !
+> 
+)! 6s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press "Enter" to open menu !
 Menu:
 1. Add road
 2. Delete road

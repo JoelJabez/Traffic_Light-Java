@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="GlobalTests" tests="1" skipped="0" failures="1" errors="0" timestamp="2023-07-11T03:20:26" hostname="0134" time="5.747">
+<testsuite name="GlobalTests" tests="1" skipped="0" failures="1" errors="0" timestamp="2023-07-12T02:59:42" hostname="0134" time="9.605">
   <properties/>
-  <testcase name="start" classname="GlobalTests" time="5.747">
-    <failure message="java.lang.AssertionError: Wrong answer in test #7&#10;&#10;When the user selected '3' as an option, program should print new system information each second, but after 1 second of waiting there was no output.&#10;&#10;Please find below the output of your program during this failed test.&#10;Note that the '&gt;' character indicates the beginning of the input line.&#10;&#10;---&#10;&#10;Welcome to the traffic management system!&#10;Input the number of roads: &gt; 1&#10;Input the interval: &gt; 1&#10;Menu:&#10;1. Add road&#10;2. Delete road&#10;3. Open system&#10;0. Quit&#10;&gt; 3&#10;Menu:&#10;1. Add road&#10;2. Delete road&#10;3. Open system&#10;0. Quit" type="java.lang.AssertionError">java.lang.AssertionError: Wrong answer in test #7
+  <testcase name="start" classname="GlobalTests" time="9.605">
+    <failure message="java.lang.AssertionError: Wrong answer in test #7&#10;&#10;Incorrect menu output in the following case: Pressed &quot;Enter&quot; to return from system mode. It should contain exactly 5 lines but there were 9 instead&#10;&#10;Please find below the output of your program during this failed test.&#10;Note that the '&gt;' character indicates the beginning of the input line.&#10;&#10;---&#10;&#10;Welcome to the traffic management system!&#10;Input the number of roads: &gt; 1&#10;Input the interval: &gt; 1&#10;Menu:&#10;1. Add road&#10;2. Delete road&#10;3. Open system&#10;0. Quit&#10;&gt; 3&#10;! 2s. have passed since system startup !&#10;! Number of roads: 1 !&#10;! Interval: 1 !&#10;! Press &quot;Enter&quot; to open menu !&#10;! 3s. have passed since system startup !&#10;! Number of roads: 1 !&#10;! Interval: 1 !&#10;! Press &quot;Enter&quot; to open menu !&#10;! 4s. have passed since system startup !&#10;! Number of roads: 1 !&#10;! Interval: 1 !&#10;! Press &quot;Enter&quot; to open menu !&#10;! 5s. have passed since system startup !&#10;! Number of roads: 1 !&#10;! Interval: 1 !&#10;! Press &quot;Enter&quot; to open menu !&#10;&gt; &#10;! 6s. have passed since system startup !&#10;! Number of roads: 1 !&#10;! Interval: 1 !&#10;! Press &quot;Enter&quot; to open menu !&#10;Menu:&#10;1. Add road&#10;2. Delete road&#10;3. Open system&#10;0. Quit" type="java.lang.AssertionError">java.lang.AssertionError: Wrong answer in test #7
 
-When the user selected '3' as an option, program should print new system information each second, but after 1 second of waiting there was no output.
+Incorrect menu output in the following case: Pressed &quot;Enter&quot; to return from system mode. It should contain exactly 5 lines but there were 9 instead
 
 Please find below the output of your program during this failed test.
 Note that the '&gt;' character indicates the beginning of the input line.
@@ -20,6 +20,27 @@ Menu:
 3. Open system
 0. Quit
 &gt; 3
+! 2s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press &quot;Enter&quot; to open menu !
+! 3s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press &quot;Enter&quot; to open menu !
+! 4s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press &quot;Enter&quot; to open menu !
+! 5s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press &quot;Enter&quot; to open menu !
+&gt; 
+! 6s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press &quot;Enter&quot; to open menu !
 Menu:
 1. Add road
 2. Delete road
@@ -219,6 +240,27 @@ Menu:
 3. Open system
 0. Quit
 > 3
+! 2s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press "Enter" to open menu !
+! 3s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press "Enter" to open menu !
+! 4s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press "Enter" to open menu !
+! 5s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press "Enter" to open menu !
+> 
+! 6s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press "Enter" to open menu !
 Menu:
 1. Add road
 2. Delete road

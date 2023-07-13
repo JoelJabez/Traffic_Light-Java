@@ -801,6 +801,192 @@ files:
       }
     }
   learner_created: false
+- name: src/traffic/light/TrafficLight.java
+  visible: true
+  text: "package traffic.light;\n\nimport java.util.Scanner;\nimport java.io.IOException;\n\
+    \npublic class TrafficLight {\n\tThread systemThread;\n\tThread menuThread;\n\t\
+    Scanner scanner = new Scanner(System.in);\n\tString exit = \"\";\n\tint numberOfRoads;\n\
+    \tint numberOfIntervals;\n\tint time = 0;\n\tboolean stopThread = false;\n\n\t\
+    public void start() {\n\t\tSystem.out.println(\"Welcome to the traffic management\
+    \ system!\");\n\n\t\tnumberOfRoads = getInput(\"Input the number of roads: \"\
+    );\n\t\tnumberOfIntervals = getInput(\"Input the interval: \");\n\n\t\tString\
+    \ input;\n\t\tcreateMenuThread();\n\t\tmenuThread.start();\n\t\tdo {\n\t\t\texit\
+    \ = \"\";\n\n\t\t\tclearScreen();\n\t\t\tprintControlPanel();\n\n\t\t\tinput =\
+    \ scanner.nextLine();\n\t\t\tswitch (input) {\n\t\t\t\tcase \"1\" -> addRoad();\n\
+    \t\t\t\tcase \"2\" -> deleteRoad();\n\t\t\t\tcase \"3\" -> openSystem();\n\t\t\
+    \t\tcase \"0\" -> {\n\t\t\t\t\texit();\n\t\t\t\t\treturn;\n\t\t\t\t}\n\n\t\t\t\
+    \tdefault -> {\n\t\t\t\t\tSystem.out.println(\"Incorrect option\");\n\t\t\t\t\t\
+    scanner.nextLine();\n\t\t\t\t}\n\t\t\t}\n\t\t} while (true);\n\t}\n\n\tprivate\
+    \ void addRoad() {\n\t\tSystem.out.println(\"Road added\");\n\t\tscanner.nextLine();\n\
+    \t}\n\n\tprivate void deleteRoad() {\n\t\tSystem.out.println(\"Road deleted\"\
+    );\n\t\tscanner.nextLine();\n\t}\n\n\tprivate void openSystem() {\n\t\tmenuThread.interrupt();\n\
+    \n\t\tstopThread = false;\n\t\texit = null;\n\n\t\tcreateSystemThread();\n\t\t\
+    systemThread.start();\n\n\t\texit = scanner.nextLine();\n\t\tstopThread = true;\n\
+    \n\t\tcreateMenuThread();\n\t\tmenuThread.start();\n\t}\n\n\tprivate void exit()\
+    \ {\n\t\tSystem.out.println(\"Bye!\");\n\t}\n\n\tprivate void sleep(int time)\
+    \ {\n\t\ttry {\n\t\t\tThread.sleep(time);\n\t\t} catch (InterruptedException ignored)\
+    \ {\n\t\t}\n\t}\n\n\tprivate void createSystemThread() {\n\t\tsystemThread = new\
+    \ Thread(() -> {\n\t\t\twhile (!stopThread) {\n\t\t\t\tif (exit != null) {\n\t\
+    \t\t\t\tsystemThread.interrupt();\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\t\t\t\tclearScreen();\n\
+    \n\t\t\t\tSystem.out.printf(\"! %ds. have passed since system startup !\\n\",\
+    \ time);\n\t\t\t\tSystem.out.printf(\"! Number of roads: %d !\\n\", numberOfRoads);\n\
+    \t\t\t\tSystem.out.printf(\"! Interval: %d !\\n\", numberOfIntervals);\n\t\t\t\
+    \tSystem.out.println(\"! Press \\\"Enter\\\" to open menu !\");\n\n\t\t\t\tsleep(1000);\n\
+    \t\t\t\ttime++;\n\t\t\t}\n\t\t});\n\t}\n\n\tprivate void createMenuThread() {\n\
+    \t\tmenuThread = new Thread(() -> {\n\t\t\tsleep(1000);\n\t\t\ttime++;\n\t\t},\
+    \ \"QueueThread\");\n\t}\n\n\tvoid printControlPanel() {\n\t\tSystem.out.println(\"\
+    Menu:\");\n\t\tSystem.out.println(\"1. Add road\");\n\t\tSystem.out.println(\"\
+    2. Delete road\");\n\t\tSystem.out.println(\"3. Open system\");\n\t\tSystem.out.println(\"\
+    0. Quit\");\n\t}\n\n\tvoid clearScreen() {\n\t\ttry {\n\t\t\tvar clearCommand\
+    \ = System.getProperty(\"os.name\").contains(\"Windows\")\n\t\t\t\t? new ProcessBuilder(\"\
+    cmd\", \"/c\", \"cls\")\n\t\t\t\t: new ProcessBuilder(\"clear\");\n\t\t\tclearCommand.inheritIO().start().waitFor();\n\
+    \t\t} catch (IOException | InterruptedException ignored) {\n\t\t}\n\t}\n\n\tint\
+    \ getInput(String message) {\n\t\tString stringNumber;\n\t\tint number;\n\t\t\
+    try {\n\t\t\tSystem.out.print(message);\n\t\t\tstringNumber = scanner.nextLine();\n\
+    \t\t\tnumber = Integer.parseInt(stringNumber);\n\n\t\t\tif (number < 1) {\n\t\t\
+    \t\treturn handleException();\n\t\t\t}\n\t\t} catch (NumberFormatException ime)\
+    \ {\n\t\t\treturn handleException();\n\t\t}\n\t\treturn number;\n\t}\n\n\tint\
+    \ handleException() {\n\t\tString stringNumber;\n\t\tint number;\n\t\tdo {\n\t\
+    \t\ttry {\n\t\t\t\tSystem.out.print(\"Error! Incorrect input. Try again: \");\n\
+    \t\t\t\tstringNumber = scanner.nextLine();\n\t\t\t\tnumber = Integer.parseInt(stringNumber);\n\
+    \t\t\t\tif (number >= 1) {\n\t\t\t\t\treturn number;\n\t\t\t\t}\n\n\t\t\t} catch\
+    \ (NumberFormatException ignored) {\n\t\t\t}\n\t\t} while (true);\n\t}\n}\n"
+  learner_created: true
+- name: buildAndRun.sh
+  visible: true
+  learner_created: true
+- name: src/traffic/light/CircularQueue.java
+  visible: true
+  learner_created: true
+- name: src/sources.txt
+  visible: true
+  learner_created: true
+- name: src/traffic/Main.class
+  visible: true
+  learner_created: true
+- name: src/traffic/light/TrafficLight.class
+  visible: true
+  learner_created: true
+- name: src/traffic/light/CircularQueue.class
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/22726#comment
-status: Unchecked
-record: -1
+status: Failed
+feedback:
+  message: "Wrong answer in test #11\n\nWhen the user provided any changes to queue,\
+    \ output of system mode should change. There should be exactly 4+n non-empty lines,\
+    \ where n is the amount of elements in queue, in such order, just like in the\
+    \ example:\n1. Line, that shows amount of time since the start of the program\n\
+    2. Line, that shows max number of elements, provided by user\n3. Line, that shows\
+    \ interval, provided by user\n...\n*queue*\n...\nn+4. Line, that that asks user\
+    \ to press &#39;Enter&#39; to show options\n\nPlease find below the output of\
+    \ your program during this failed test.\nNote that the &#39;&gt;&#39; character\
+    \ indicates the beginning of the input line.\n\n---\n\nstdout:\n[last 250 lines\
+    \ of output are shown, 51 skipped]\n0. Quit\n&gt; 1\nInput road name: &gt; n3w_v3ry_unu5u4l_r04d_n4m3_2\n\
+    queue is full\n&gt; \nMenu:\n1. Add road\n2. Delete road\n3. Open system\n0. Quit\n\
+    &gt; 3\n! 3s. have passed since system startup !\n! Number of roads: 1 !\n! Interval:\
+    \ 1 !\n\nn3w_v3ry_unu5u4l_r04d_n4m3_1\n\n! Press &quot;Enter&quot; to open menu\
+    \ !\n&gt; \nMenu:\n1. Add road\n2. Delete road\n3. Open system\n0. Quit\n&gt;\
+    \ 2\nn3w_v3ry_unu5u4l_r04d_n4m3_1 deleted!\n&gt; \nMenu:\n1. Add road\n2. Delete\
+    \ road\n3. Open system\n0. Quit\n&gt; 3\n! 4s. have passed since system startup\
+    \ !\n! Number of roads: 1 !\n! Interval: 1 !\n\n\n! Press &quot;Enter&quot; to\
+    \ open menu !\n! 5s. have passed since system startup !\n! Number of roads: 1\
+    \ !\n! Interval: 1 !\n\n\n! Press &quot;Enter&quot; to open menu !\n&gt; \nMenu:\n\
+    1. Add road\n2. Delete road\n3. Open system\n0. Quit\n&gt; 1\nInput road name:\
+    \ &gt; n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4 Added!\n&gt;\
+    \ \nMenu:\n1. Add road\n2. Delete road\n3. Open system\n0. Quit\n&gt; 3\n! 6s.\
+    \ have passed since system startup !\n! Number of roads: 1 !\n! Interval: 1 !\n\
+    \nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    ! 7s. have passed since system startup !\n! Number of roads: 1 !\n! Interval:\
+    \ 1 !\n\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\nn3w_v3ry_unu5u4l_r04d_n4m3_4\n\
+    n3w_v3ry_unu5u4l_r04d_n4m3_4\n\nstderr:\nException in thread &quot;Thread-11&quot;\
+    \ org.hyperskill.hstest.dynamic.security.ExitException: Tried to exit with status\
+    \ 0.\n\tat org.hyperskill.hstest.dynamic.output.InfiniteLoopDetector.fail(InfiniteLoopDetector.java:155)\n\
+    \tat org.hyperskill.hstest.dynamic.output.InfiniteLoopDetector.checkInfLoopLines(InfiniteLoopDetector.java:131)\n\
+    \tat org.hyperskill.hstest.dynamic.output.InfiniteLoopDetector.write(InfiniteLoopDetector.java:56)\n\
+    \tat org.hyperskill.hstest.dynamic.output.OutputMock.write(OutputMock.java:77)\n\
+    \tat java.base/java.io.OutputStream.write(OutputStream.java:167)\n\tat java.base/java.io.PrintStream.implWrite(PrintStream.java:643)\n\
+    \tat java.base/java.io.PrintStream.write(PrintStream.java:623)\n\tat java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:313)\n\
+    \tat java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:409)\n\
+    \tat java.base/sun.nio.cs.StreamEncoder.lockedFlushBuffer(StreamEncoder.java:127)\n\
+    \tat java.base/sun.nio.cs.StreamEncoder.flushBuffer(StreamEncoder.java:114)\n\t\
+    at java.base/java.io.OutputStreamWriter.flushBuffer(OutputStreamWriter.java:193)\n\
+    \tat java.base/java.io.PrintStream.implWriteln(PrintStream.java:849)\n\tat java.base/java.io.PrintStream.writeln(PrintStream.java:826)\n\
+    \tat java.base/java.io.PrintStream.println(PrintStream.java:1168)\n\tat traffic.light.CircularQueue.get(CircularQueue.java:50)\n\
+    \tat traffic.light.TrafficLight.lambda$createSystemThread$0(TrafficLight.java:106)\n\
+    \tat java.base/java.lang.Thread.run(Thread.java:1623)\nException in thread &quot;Thread-8&quot;\
+    \ org.hyperskill.hstest.dynamic.security.ExitException: Tried to exit with status\
+    \ 0.\n\tat org.hyperskill.hstest.dynamic.output.InfiniteLoopDetector.fail(InfiniteLoopDetector.java:155)\n\
+    \tat org.hyperskill.hstest.dynamic.output.InfiniteLoopDetector.checkInfLoopLines(InfiniteLoopDetector.java:131)\n\
+    \tat org.hyperskill.hstest.dynamic.output.InfiniteLoopDetector.write(InfiniteLoopDetector.java:56)\n\
+    \tat org.hyperskill.hstest.dynamic.output.OutputMock.write(OutputMock.java:77)\n\
+    \tat java.base/java.io.OutputStream.write(OutputStream.java:167)\n\tat java.base/java.io.PrintStream.implWrite(PrintStream.java:643)\n\
+    \tat java.base/java.io.PrintStream.write(PrintStream.java:623)\n\tat java.base/sun.nio.cs.StreamEncoder.writeBytes(StreamEncoder.java:313)\n\
+    \tat java.base/sun.nio.cs.StreamEncoder.implFlushBuffer(StreamEncoder.java:409)\n\
+    \tat java.base/sun.nio.cs.StreamEncoder.lockedFlushBuffer(StreamEncoder.java:127)\n\
+    \tat java.base/sun.nio.cs.StreamEncoder.flushBuffer(StreamEncoder.java:114)\n\t\
+    at java.base/java.io.OutputStreamWriter.flushBuffer(OutputStreamWriter.java:193)\n\
+    \tat java.base/java.io.PrintStream.implWriteln(PrintStream.java:849)\n\tat java.base/java.io.PrintStream.writeln(PrintStream.java:826)\n\
+    \tat java.base/java.io.PrintStream.println(PrintStream.java:1168)\n\tat traffic.light.CircularQueue.get(CircularQueue.java:50)\n\
+    \tat traffic.light.TrafficLight.lambda$createSystemThread$0(TrafficLight.java:106)\n\
+    \tat java.base/java.lang.Thread.run(Thread.java:1623)"
+  time: "Thu, 13 Jul 2023 04:02:14 UTC"
+record: 5

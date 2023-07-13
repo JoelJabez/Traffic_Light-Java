@@ -4,13 +4,15 @@ import java.util.Scanner;
 import java.io.IOException;
 
 public class TrafficLight {
-	Thread thread;
+	Thread systemThread;
+	Thread menuThread;
+	CircularQueue queue;
 	Scanner scanner = new Scanner(System.in);
-	String state = "Menu";
 	String exit = "";
 	int numberOfRoads;
 	int numberOfIntervals;
 	int time = 0;
+	boolean stopThread = false;
 
 	public void start() {
 		System.out.println("Welcome to the traffic management system!");
@@ -18,12 +20,14 @@ public class TrafficLight {
 		numberOfRoads = getInput("Input the number of roads: ");
 		numberOfIntervals = getInput("Input the interval: ");
 
+		queue = new CircularQueue(numberOfRoads);
+
 		String input;
+		createMenuThread();
+		menuThread.start();
 		do {
 			exit = "";
 
-			createThread();
-			thread.start();
 			clearScreen();
 			printControlPanel();
 
@@ -46,59 +50,75 @@ public class TrafficLight {
 	}
 
 	private void addRoad() {
-		System.out.println("Road added");
+		System.out.print("Input road name: ");
+		String roadName = scanner.nextLine();
+
+		queue.enqueue(roadName);
+
 		scanner.nextLine();
 	}
 
 	private void deleteRoad() {
-		System.out.println("Road deleted");
+		queue.dequeue();
 		scanner.nextLine();
 	}
 
 	private void openSystem() {
-		exit = null;
-		state = "System";
+		menuThread.interrupt();
 
-		createThread();
-		thread.start();
+		stopThread = false;
+		exit = null;
+
+		createSystemThread();
+		systemThread.start();
 
 		exit = scanner.nextLine();
-		state = "Menu";
+		stopThread = true;
+
+		createMenuThread();
+		menuThread.start();
 	}
 
 	private void exit() {
 		System.out.println("Bye!");
 	}
 
-	private void sleep(int time) {
+	private void sleep() {
 		try {
-			Thread.sleep(time);
-		} catch (InterruptedException ignored) {}
+			Thread.sleep(1000);
+		} catch (InterruptedException ignored) {
+		}
 	}
 
-	private void createThread() {
-		thread = new Thread(() -> {
-			if (state.equals("Menu")) {
-				time++;
-				sleep(1000);
-			} else if (state.equals("System")) {
-				while (!thread.isInterrupted()) {
-					if (exit != null) {
-						thread.interrupt();
-					}
-
-					sleep(1000);
-					time++;
-
-					clearScreen();
-
-					System.out.printf("! %ds. have passed since system startup !\n", time);
-					System.out.printf("! Number of roads: %d !\n", numberOfRoads);
-					System.out.printf("! Interval: %d !\n", numberOfIntervals);
-					System.out.println("! Press \"Enter\" to open menu !");
+	private void createSystemThread() {
+		systemThread = new Thread(() -> {
+			while (!stopThread) {
+				if (exit != null) {
+					systemThread.interrupt();
+					break;
 				}
+				clearScreen();
+
+				System.out.printf("! %ds. have passed since system startup !\n", time);
+				System.out.printf("! Number of roads: %d !\n", numberOfRoads);
+				System.out.printf("! Interval: %d !\n", numberOfIntervals);
+				System.out.println();
+				queue.get();
+				System.out.println();
+				System.out.println("! Press \"Enter\" to open menu !");
+
+				timer();
 			}
-		}, "QueueThread");
+		});
+	}
+
+	private void timer() {
+		sleep();
+		time++;
+	}
+
+	private void createMenuThread() {
+		menuThread = new Thread(this::timer, "QueueThread");
 	}
 
 	void printControlPanel() {

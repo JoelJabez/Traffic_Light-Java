@@ -801,6 +801,18 @@ files:
       }
     }
   learner_created: false
+- name: src/traffic/light/TrafficLight.java
+  visible: true
+  learner_created: true
+- name: buildAndRun.sh
+  visible: true
+  learner_created: true
+- name: src/sources.txt
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/22725#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Thu, 13 Jul 2023 01:08:09 UTC"
+record: 4

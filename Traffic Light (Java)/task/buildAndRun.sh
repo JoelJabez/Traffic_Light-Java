@@ -14,4 +14,6 @@ do
     mv "$line" ../out/production/classes/
 done
 
+rm sources.txt
+
 cd ../

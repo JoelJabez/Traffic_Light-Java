@@ -8,9 +8,10 @@ public class TrafficLight {
 	Thread menuThread;
 	CircularQueue queue;
 	Scanner scanner = new Scanner(System.in);
+
 	String exit = "";
 	int numberOfRoads;
-	int numberOfIntervals;
+	static int numberOfIntervals;
 	int time = 0;
 	boolean stopThread = false;
 
@@ -21,6 +22,7 @@ public class TrafficLight {
 		numberOfIntervals = getInput("Input the interval: ");
 
 		queue = new CircularQueue(numberOfRoads);
+		queue.time = numberOfIntervals;
 
 		String input;
 		createMenuThread();

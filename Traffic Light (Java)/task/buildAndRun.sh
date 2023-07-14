@@ -1,5 +1,6 @@
 #!/bin/bash
 
+clear
 cd src/
 
 find -name "*.java" > sources.txt

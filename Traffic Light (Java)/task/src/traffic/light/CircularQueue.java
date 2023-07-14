@@ -1,11 +1,25 @@
 package traffic.light;
 
+import traffic.Main;
+
+import static traffic.light.TrafficLight.numberOfIntervals;
+
 class CircularQueue {
+	final String ANSI_RED = "\u001B[31m";
+	final String ANSI_YELLOW = "\u001B[32m";
+	final String ANSI_GREEN = "\u001B[32m";
+	final String ANSI_RESET = "\u001B[0m";
+
 	private String[] roadArray;
+
 	private final int capacity;
 	private int front = 0;
 	private int rear = -1;
 	private int numberOfRoads = 0;
+	int time = numberOfIntervals;
+	int roadNumber = 0;
+
+	boolean isSwap = false;
 
 	CircularQueue(int capacity) {
 		this.capacity = capacity;
@@ -44,16 +58,58 @@ class CircularQueue {
 
 	void listRoads() {
 		if (numberOfRoads != 0) {
-			int index = front;
+			int road = front;
 
 			System.out.println();
 			for (int counter = 0; counter < numberOfRoads; counter++) {
-				System.out.println(roadArray[index]);
 
-				index++;
-				index %= capacity;
+				if (time < 1) {
+					if (roadNumber != 1) {
+						time = (int) Math.round(numberOfIntervals / 2.0);
+					} else {
+						time = numberOfIntervals;
+					}
+					isSwap = !isSwap;
+					roadNumber = (roadNumber + 1) % numberOfRoads;
+				}
+
+				switch (numberOfRoads) {
+					case 1 -> printOpenRoad(road);
+					case 2 -> withTwoRoads(road);
+					case 3 -> {
+						switch (roadNumber)	{
+							case 0 -> printOpenRoad(road);
+							case 1, 2 -> printCloseRoad(road);
+						}
+
+						roadNumber = (roadNumber + 2) % numberOfRoads;
+					}
+				}
+
+				road++;
+				road %= capacity;
 			}
 			System.out.println();
+			time--;
 		}
+	}
+
+	private void withTwoRoads(int road) {
+		if (!isSwap) {
+			printOpenRoad(road);
+		} else {
+			printCloseRoad(road);
+		}
+		isSwap = !isSwap;
+	}
+
+	private void printCloseRoad(int road) {
+		System.out.printf("%s will be %sclosed in %ds%s\n",
+		roadArray[road], ANSI_RED, time, ANSI_RESET);
+	}
+
+	private void printOpenRoad(int road) {
+		System.out.printf("%s will be %sopened in %ds%s\n",
+			roadArray[road], ANSI_GREEN, time, ANSI_RESET);
 	}
 }

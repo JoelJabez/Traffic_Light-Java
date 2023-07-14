@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GlobalTests extends StageTest {
 
-  int STAGE = 5;
+  int STAGE = 6;
   String name = "n3w_v3ry_unu5u4l_r04d_n4m3_";
 
   public void ForStages(int[] stages) {

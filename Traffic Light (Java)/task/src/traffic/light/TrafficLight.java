@@ -71,6 +71,7 @@ public class TrafficLight {
 		stopThread = false;
 		exit = null;
 
+        queue.setRange();
 		createSystemThread();
 		systemThread.start();
 
@@ -104,7 +105,7 @@ public class TrafficLight {
 				System.out.printf("! %ds. have passed since system startup !\n", time);
 				System.out.printf("! Number of roads: %d !\n", numberOfRoads);
 				System.out.printf("! Interval: %d !\n", numberOfIntervals);
-				queue.listRoads();
+				queue.listRoads(time);
 				System.out.println("! Press \"Enter\" to open menu !");
 
 				timer();

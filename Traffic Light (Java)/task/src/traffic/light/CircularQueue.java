@@ -4,7 +4,7 @@ import static traffic.light.TrafficLight.numberOfIntervals;
 
 class CircularQueue {
     final String ANSI_RED = "\u001B[31m";
-    final String ANSI_YELLOW = "\u001B[32m";
+    final String ANSI_YELLOW = "\u001B[33m";
     final String ANSI_GREEN = "\u001B[32m";
     final String ANSI_RESET = "\u001B[0m";
 
@@ -15,8 +15,8 @@ class CircularQueue {
     private int rear = -1;
     private int numberOfRoads = 0;
     int time = numberOfIntervals;
-    int roadNumber = 0;
-    int counter = 0;
+    int frontIndex;
+    int rearIndex;
 
     CircularQueue(int capacity) {
         this.capacity = capacity;
@@ -53,57 +53,34 @@ class CircularQueue {
         numberOfRoads--;
     }
 
-    void listRoads() {
+    void setRange() {
+        frontIndex = front;
+        rearIndex = rear;
+    }
+
+    void listRoads(int currentTime) {
         if (numberOfRoads != 0) {
-            int road = front;
+            if (time < 1) {
+                time = numberOfIntervals;
+                frontIndex = (frontIndex + 1) % numberOfRoads;
+                rearIndex = (rearIndex + 1) % numberOfRoads;
+            }
 
             System.out.println();
-            for (int i = 0; i < numberOfRoads; i++) {
-                if (time < 1) {
-                    time = numberOfIntervals;
-                    roadNumber = roadNumber++ % numberOfRoads;
-
-                    if (numberOfRoads > 1) {
-                        counter = counter++ % numberOfRoads;
+            if (numberOfRoads == 1) {
+                printOpenRoad(frontIndex);
+            } else {
+                for (int i = 0; i < numberOfRoads; i++) {
+                    if (i == frontIndex) {
+                        printOpenRoad(frontIndex);
+                    } else {
+                        printCloseRoad(i);
                     }
                 }
-
-                switch (numberOfRoads) {
-                    case 1 -> printOpenRoad(road);
-                    case 2 -> withTwoRoads(road);
-                    case 3 -> {
-                        switch (counter % 3) {
-                            case 0 -> printOpenRoad(road);
-                            case 1 -> printCloseRoad(road);
-                            case 2 -> {
-                                int tempTime = time;
-                                time = time++ % numberOfIntervals;
-
-                                printCloseRoad(road);
-                                time = tempTime;
-                            }
-                        }
-
-                        counter = (counter + 2) % numberOfRoads;
-                        roadNumber = (roadNumber + 2) % numberOfRoads;
-                    }
-                }
-
-                road = road++ % capacity;
             }
             System.out.println();
             time--;
         }
-    }
-
-    private void withTwoRoads(int road) {
-        if (counter % 2 == 0) {
-            printOpenRoad(road);
-        } else {
-            printCloseRoad(road);
-        }
-
-        counter = counter++ % numberOfRoads;
     }
 
     private void printOpenRoad(int road) {

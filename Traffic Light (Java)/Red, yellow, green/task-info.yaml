@@ -801,6 +801,93 @@ files:
       }
     }
   learner_created: false
+- name: src/traffic/light/CircularQueue.java
+  visible: true
+  text: "package traffic.light;\n\nclass CircularQueue {\n\tprivate String[] roadArray;\n\
+    \tprivate final int capacity;\n\tprivate int front = 0;\n\tprivate int rear =\
+    \ -1;\n\tprivate int numberOfRoads = 0;\n\n\tCircularQueue(int capacity) {\n\t\
+    \tthis.capacity = capacity;\n\t\troadArray = new String[capacity];\n\t}\n\n\t\
+    void enqueue(String road) {\n\t\tint index = (rear + 1) % capacity;\n\n\t\tif\
+    \ (numberOfRoads == capacity) {\n\t\t\tSystem.out.println(\"queue is full\");\n\
+    \t\t\treturn;\n\t\t}\n\t\tif (front >= capacity) {\n\t\t\tfront = 0;\n\t\t}\n\n\
+    \t\troadArray[index] = road;\n\t\tnumberOfRoads++;\n\t\trear++;\n\n\t\tSystem.out.println(road\
+    \ + \" Added!\");\n\t}\n\n\tvoid dequeue() {\n\t\tif (numberOfRoads == 0) {\n\t\
+    \t\tSystem.out.println(\"queue is empty\");\n\t\t\treturn;\n\t\t}\n\t\tint index\
+    \ = front % capacity;\n\n\t\tSystem.out.println(roadArray[index] + \" deleted!\"\
+    );\n\t\tfront++;\n\t\tnumberOfRoads--;\n\t}\n\n\tvoid listRoads() {\n\t\tif (numberOfRoads\
+    \ != 0) {\n\t\t\tint index = front;\n\n\t\t\tSystem.out.println();\n\t\t\tfor\
+    \ (int counter = 0; counter < numberOfRoads; counter++) {\n\t\t\t\tSystem.out.println(roadArray[index]);\n\
+    \n\t\t\t\tindex++;\n\t\t\t\tindex %= capacity;\n\t\t\t}\n\t\t\tSystem.out.println();\n\
+    \t\t}\n\t}\n}\n"
+  learner_created: true
+- name: src/traffic/light/TrafficLight.java
+  visible: true
+  text: "package traffic.light;\n\nimport java.util.Scanner;\nimport java.io.IOException;\n\
+    \npublic class TrafficLight {\n\tThread systemThread;\n\tThread menuThread;\n\t\
+    CircularQueue queue;\n\tScanner scanner = new Scanner(System.in);\n\tString exit\
+    \ = \"\";\n\tint numberOfRoads;\n\tint numberOfIntervals;\n\tint time = 0;\n\t\
+    boolean stopThread = false;\n\n\tpublic void start() {\n\t\tSystem.out.println(\"\
+    Welcome to the traffic management system!\");\n\n\t\tnumberOfRoads = getInput(\"\
+    Input the number of roads: \");\n\t\tnumberOfIntervals = getInput(\"Input the\
+    \ interval: \");\n\n\t\tqueue = new CircularQueue(numberOfRoads);\n\n\t\tString\
+    \ input;\n\t\tcreateMenuThread();\n\t\tmenuThread.start();\n\t\tdo {\n\t\t\texit\
+    \ = \"\";\n\n\t\t\tclearScreen();\n\t\t\tprintControlPanel();\n\n\t\t\tinput =\
+    \ scanner.nextLine();\n\t\t\tswitch (input) {\n\t\t\t\tcase \"1\" -> addRoad();\n\
+    \t\t\t\tcase \"2\" -> deleteRoad();\n\t\t\t\tcase \"3\" -> openSystem();\n\t\t\
+    \t\tcase \"0\" -> {\n\t\t\t\t\texit();\n\t\t\t\t\treturn;\n\t\t\t\t}\n\n\t\t\t\
+    \tdefault -> {\n\t\t\t\t\tSystem.out.println(\"Incorrect option\");\n\t\t\t\t\t\
+    scanner.nextLine();\n\t\t\t\t}\n\t\t\t}\n\t\t} while (true);\n\t}\n\n\tprivate\
+    \ void addRoad() {\n\t\tSystem.out.print(\"Input road name: \");\n\t\tString roadName\
+    \ = scanner.nextLine();\n\n\t\tqueue.enqueue(roadName);\n\n\t\tscanner.nextLine();\n\
+    \t}\n\n\tprivate void deleteRoad() {\n\t\tqueue.dequeue();\n\t\tscanner.nextLine();\n\
+    \t}\n\n\tprivate void openSystem() {\n\t\tmenuThread.interrupt();\n\n\t\tstopThread\
+    \ = false;\n\t\texit = null;\n\n\t\tcreateSystemThread();\n\t\tsystemThread.start();\n\
+    \n\t\texit = scanner.nextLine();\n\t\tstopThread = true;\n\n\t\tcreateMenuThread();\n\
+    \t\tmenuThread.start();\n\t}\n\n\tprivate void exit() {\n\t\tSystem.out.println(\"\
+    Bye!\");\n\t}\n\n\tprivate void sleep() {\n\t\ttry {\n\t\t\tThread.sleep(1000);\n\
+    \t\t} catch (InterruptedException ignored) {\n\t\t}\n\t}\n\n\tprivate void createSystemThread()\
+    \ {\n\t\tsystemThread = new Thread(() -> {\n\t\t\twhile (!stopThread) {\n\t\t\t\
+    \tif (exit != null) {\n\t\t\t\t\tsystemThread.interrupt();\n\t\t\t\t\tbreak;\n\
+    \t\t\t\t}\n\t\t\t\tclearScreen();\n\n\t\t\t\tSystem.out.printf(\"! %ds. have passed\
+    \ since system startup !\\n\", time);\n\t\t\t\tSystem.out.printf(\"! Number of\
+    \ roads: %d !\\n\", numberOfRoads);\n\t\t\t\tSystem.out.printf(\"! Interval: %d\
+    \ !\\n\", numberOfIntervals);\n\t\t\t\tqueue.listRoads();\n\t\t\t\tSystem.out.println(\"\
+    ! Press \\\"Enter\\\" to open menu !\");\n\n\t\t\t\ttimer();\n\t\t\t}\n\t\t});\n\
+    \t}\n\n\tprivate void timer() {\n\t\tsleep();\n\t\ttime++;\n\t}\n\n\tprivate void\
+    \ createMenuThread() {\n\t\tmenuThread = new Thread(this::timer, \"QueueThread\"\
+    );\n\t}\n\n\tvoid printControlPanel() {\n\t\tSystem.out.println(\"Menu:\");\n\t\
+    \tSystem.out.println(\"1. Add road\");\n\t\tSystem.out.println(\"2. Delete road\"\
+    );\n\t\tSystem.out.println(\"3. Open system\");\n\t\tSystem.out.println(\"0. Quit\"\
+    );\n\t}\n\n\tvoid clearScreen() {\n\t\ttry {\n\t\t\tvar clearCommand = System.getProperty(\"\
+    os.name\").contains(\"Windows\")\n\t\t\t\t? new ProcessBuilder(\"cmd\", \"/c\"\
+    , \"cls\")\n\t\t\t\t: new ProcessBuilder(\"clear\");\n\t\t\tclearCommand.inheritIO().start().waitFor();\n\
+    \t\t} catch (IOException | InterruptedException ignored) {\n\t\t}\n\t}\n\n\tint\
+    \ getInput(String message) {\n\t\tString stringNumber;\n\t\tint number;\n\t\t\
+    try {\n\t\t\tSystem.out.print(message);\n\t\t\tstringNumber = scanner.nextLine();\n\
+    \t\t\tnumber = Integer.parseInt(stringNumber);\n\n\t\t\tif (number < 1) {\n\t\t\
+    \t\treturn handleException();\n\t\t\t}\n\t\t} catch (NumberFormatException ime)\
+    \ {\n\t\t\treturn handleException();\n\t\t}\n\t\treturn number;\n\t}\n\n\tint\
+    \ handleException() {\n\t\tString stringNumber;\n\t\tint number;\n\t\tdo {\n\t\
+    \t\ttry {\n\t\t\t\tSystem.out.print(\"Error! Incorrect input. Try again: \");\n\
+    \t\t\t\tstringNumber = scanner.nextLine();\n\t\t\t\tnumber = Integer.parseInt(stringNumber);\n\
+    \t\t\t\tif (number >= 1) {\n\t\t\t\t\treturn number;\n\t\t\t\t}\n\n\t\t\t} catch\
+    \ (NumberFormatException ignored) {\n\t\t\t}\n\t\t} while (true);\n\t}\n}\n"
+  learner_created: true
+- name: buildAndRun.sh
+  visible: true
+  learner_created: true
+- name: src/sources.txt
+  visible: true
+  learner_created: true
+- name: src/traffic/Main.class
+  visible: true
+  learner_created: true
+- name: src/traffic/light/TrafficLight.class
+  visible: true
+  learner_created: true
+- name: src/traffic/light/CircularQueue.class
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/22727#comment
 status: Unchecked
 record: -1

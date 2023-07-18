@@ -23,6 +23,7 @@ public class TrafficLight {
 
 		queue = new CircularQueue(numberOfRoads);
 		queue.time = numberOfIntervals;
+        queue.longTime = numberOfIntervals;
 
 		String input;
 		createMenuThread();
@@ -56,12 +57,14 @@ public class TrafficLight {
 		String roadName = scanner.nextLine();
 
 		queue.enqueue(roadName);
+        queue.longTime = time * (queue.numberOfRoads - 1);
 
 		scanner.nextLine();
 	}
 
 	private void deleteRoad() {
 		queue.dequeue();
+        queue.longTime = time * (queue.numberOfRoads - 1);
 		scanner.nextLine();
 	}
 
@@ -105,7 +108,7 @@ public class TrafficLight {
 				System.out.printf("! %ds. have passed since system startup !\n", time);
 				System.out.printf("! Number of roads: %d !\n", numberOfRoads);
 				System.out.printf("! Interval: %d !\n", numberOfIntervals);
-				queue.listRoads(time);
+				queue.listRoads();
 				System.out.println("! Press \"Enter\" to open menu !");
 
 				timer();

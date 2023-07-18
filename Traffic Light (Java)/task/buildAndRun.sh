@@ -12,7 +12,7 @@ rm sources.txt
 find -name "*.class" > sources.txt
 for line in $(cat sources.txt)
 do
-    mv "$line" ../out/production/classes/
+    rm "$line"
 done
 
 rm sources.txt

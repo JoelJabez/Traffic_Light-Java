@@ -3,22 +3,21 @@ package traffic.light;
 import static traffic.light.TrafficLight.numberOfIntervals;
 
 class CircularQueue {
-    private final String ANSI_RED = "\u001B[31m";
-    private final String ANSI_YELLOW = "\u001B[33m";
-    private final String ANSI_GREEN = "\u001B[32m";
-    private final String ANSI_RESET = "\u001B[0m";
+    final String ANSI_RED = "\u001B[31m";
+    final String ANSI_YELLOW = "\u001B[33m";
+    final String ANSI_GREEN = "\u001B[32m";
+    final String ANSI_RESET = "\u001B[0m";
 
     private String[] roadArray;
 
     private final int capacity;
     private int front = 0;
     private int rear = -1;
-    private int frontIndex;
-    private int rearIndex;
-    int time;
-    int longTime = numberOfIntervals;
-    int formula = numberOfIntervals;
-    int numberOfRoads = 0;
+    private int numberOfRoads = 0;
+    int time = numberOfIntervals;
+    int waitTime = numberOfIntervals;
+    int frontIndex;
+    int rearIndex;
 
     CircularQueue(int capacity) {
         this.capacity = capacity;
@@ -59,18 +58,22 @@ class CircularQueue {
     void setRange() {
         frontIndex = front;
         rearIndex = rear;
+
+        if (numberOfRoads > 2) {
+            waitTime = numberOfIntervals * (numberOfRoads - 1);
+        }
     }
 
     void listRoads() {
         if (numberOfRoads != 0) {
-            if (time < 1 || longTime < 1) {
-                frontIndex = (frontIndex + 1) % numberOfRoads;
-                rearIndex = (rearIndex + 1) % numberOfRoads;
-
+            if (time < 1 || waitTime < 1) {
                 if (time < 1) {
                     time = numberOfIntervals;
-                    longTime = formula;
+                    waitTime = numberOfIntervals * (numberOfRoads - 1);
                 }
+
+                frontIndex = (frontIndex + 1) % numberOfRoads;
+                rearIndex = (rearIndex + 1) % numberOfRoads;
             }
 
             System.out.println();
@@ -81,20 +84,15 @@ class CircularQueue {
                     if (i == frontIndex) {
                         printOpenRoad(frontIndex, time);
                     } else if (i == rearIndex) {
-                        printCloseRoad(rearIndex, longTime);
+                        printCloseRoad(rearIndex, waitTime);
                     } else {
-                        int tempIndex = frontIndex;
-                        frontIndex = (frontIndex + 1) % numberOfRoads;
-                        do {
-                            printCloseRoad(frontIndex, time);
-                            frontIndex = (frontIndex + 1) % numberOfRoads;
-                        } while (frontIndex != rearIndex);
-                        frontIndex = tempIndex;
+                        int index = (i) % numberOfRoads;
+                        printCloseRoad(index, time);
                     }
                 }
             }
             System.out.println();
-            longTime--;
+            waitTime--;
             time--;
         }
     }

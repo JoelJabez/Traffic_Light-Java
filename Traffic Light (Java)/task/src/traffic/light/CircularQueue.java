@@ -14,8 +14,8 @@ class CircularQueue {
     private int front = 0;
     private int rear = -1;
     private int numberOfRoads = 0;
-    int time = numberOfIntervals;
-    int waitTime = numberOfIntervals;
+    int time;
+    int waitTime;
     int frontIndex;
     int rearIndex;
 
@@ -59,8 +59,11 @@ class CircularQueue {
         frontIndex = front;
         rearIndex = rear;
 
+        time = numberOfIntervals;
         if (numberOfRoads > 2) {
             waitTime = numberOfIntervals * (numberOfRoads - 1);
+        } else {
+            waitTime = numberOfIntervals;
         }
     }
 
@@ -80,15 +83,17 @@ class CircularQueue {
             if (numberOfRoads == 1) {
                 printOpenRoad(front, time);
             } else {
+                int index = front;
                 for (int i = 0; i < numberOfRoads; i++) {
                     if (i == frontIndex) {
-                        printOpenRoad(frontIndex, time);
+                        printOpenRoad(index, time);
                     } else if (i == rearIndex) {
-                        printCloseRoad(rearIndex, waitTime);
+                        printCloseRoad(index, waitTime);
                     } else {
-                        int index = (i) % numberOfRoads;
                         printCloseRoad(index, time);
                     }
+
+                    index = (index + 1) % numberOfRoads;
                 }
             }
             System.out.println();

@@ -1,0 +1,24 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: We cannot create any other instances of the class <b>Thread</b>
+- text: We cannot invoke <b>thread.start()</b> multiple times
+- text: If we call the method <b>thread.run()</b> it calls the method <b>start()</b>
+    of this instance
+- text: We cannot invoke <b>thread.run()</b> multiple times
+files:
+- name: src/Task.java
+  visible: true
+  text: |
+    // You can experiment here, it won’t be checked
+
+    public class Task {
+      public static void main(String[] args) {
+        // put your code here
+      }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/2518#comment
+status: Solved
+record: -1
+local_check: false

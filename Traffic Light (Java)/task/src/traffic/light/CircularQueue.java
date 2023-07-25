@@ -3,25 +3,47 @@ package traffic.light;
 import static traffic.light.TrafficLight.numberOfIntervals;
 
 class CircularQueue {
-    final String ANSI_RED = "\u001B[31m";
-    final String ANSI_YELLOW = "\u001B[33m";
-    final String ANSI_GREEN = "\u001B[32m";
-    final String ANSI_RESET = "\u001B[0m";
+    final private String ANSI_RED = "\u001B[31m";
+    final private String ANSI_YELLOW = "\u001B[33m";
+    final private String ANSI_GREEN = "\u001B[32m";
+    final private String ANSI_RESET = "\u001B[0m";
 
     private String[] roadArray;
 
+    Thread backgroundThread;
     private final int capacity;
     private int front = 0;
     private int rear = -1;
-    private int numberOfRoads = 0;
-    int time;
-    int waitTime;
+    int numberOfRoads = 0;
+    int frontTime;
+    int rearTime;
     int frontIndex;
     int rearIndex;
 
     CircularQueue(int capacity) {
         this.capacity = capacity;
         roadArray = new String[capacity];
+    }
+
+    void trafficLightTimer() {
+        if (numberOfRoads > 0) {
+            frontTime--;
+            rearTime--;
+
+            if (frontTime < 1 || rearTime < 1) {
+                if (frontTime < 1) {
+                    resetTrafficLightTime();
+                }
+
+                frontIndex = (frontIndex + 1) % numberOfRoads;
+                rearIndex = (rearIndex + 1) % numberOfRoads;
+            }
+        }
+    }
+
+    void resetTrafficLightTime() {
+        frontTime = numberOfIntervals;
+        rearTime = numberOfIntervals * (numberOfRoads - 1);
     }
 
     void enqueue(String road) {
@@ -40,6 +62,7 @@ class CircularQueue {
         rear++;
 
         System.out.println(road + " Added!");
+        setRange();
     }
 
     void dequeue() {
@@ -53,26 +76,23 @@ class CircularQueue {
 
         front++;
         numberOfRoads--;
+
+        setRange();
     }
 
     void setRange() {
         frontIndex = front;
         rearIndex = rear;
 
-        time = numberOfIntervals;
-        if (numberOfRoads > 2) {
-            waitTime = numberOfIntervals * (numberOfRoads - 1);
-        } else {
-            waitTime = numberOfIntervals;
-        }
+        resetTrafficLightTime();
     }
 
     void listRoads() {
         if (numberOfRoads != 0) {
-            if (time < 1 || waitTime < 1) {
-                if (time < 1) {
-                    time = numberOfIntervals;
-                    waitTime = numberOfIntervals * (numberOfRoads - 1);
+            if (frontTime < 1 || rearTime < 1) {
+                if (frontTime < 1) {
+                    frontTime = numberOfIntervals;
+                    rearTime = numberOfIntervals * (numberOfRoads - 1);
                 }
 
                 frontIndex = (frontIndex + 1) % numberOfRoads;
@@ -81,39 +101,37 @@ class CircularQueue {
 
             System.out.println();
             if (numberOfRoads == 1) {
-                printOpenRoad(front, time);
+                printOpenRoad(front, frontTime);
             } else {
                 int index = front;
                 for (int i = 0; i < numberOfRoads; i++) {
                     if (i == frontIndex) {
-                        printOpenRoad(index, time);
+                        printOpenRoad(index, frontTime);
                     } else if (i == rearIndex) {
-                        printCloseRoad(index, waitTime);
+                        printCloseRoad(index, rearTime);
                     } else {
-                        printCloseRoad(index, time);
+                        printCloseRoad(index, frontTime);
                     }
 
                     index = (index + 1) % numberOfRoads;
                 }
             }
             System.out.println();
-            waitTime--;
-            time--;
         }
     }
 
-    private void printOpenRoad(int road, int time) {
-        if (time <= 2) {
+    private void printOpenRoad(int road, int frontTime) {
+        if (frontTime <= 2) {
             System.out.printf("%s will be %sopened for %ds.%s\n",
-                    roadArray[road], ANSI_YELLOW, time, ANSI_RESET);
+                    roadArray[road], ANSI_YELLOW, frontTime, ANSI_RESET);
         } else {
             System.out.printf("%s will be %sopened for %ds.%s\n",
-                    roadArray[road], ANSI_GREEN, time, ANSI_RESET);
+                    roadArray[road], ANSI_GREEN, frontTime, ANSI_RESET);
         }
     }
 
-    private void printCloseRoad(int road, int time) {
+    private void printCloseRoad(int road, int frontTime) {
         System.out.printf("%s will be %sclosed for %ds.%s\n",
-                roadArray[road], ANSI_RED, time, ANSI_RESET);
+                roadArray[road], ANSI_RED, frontTime, ANSI_RESET);
     }
 }

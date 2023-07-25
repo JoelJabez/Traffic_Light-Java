@@ -1,0 +1,173 @@
+[1;31m
+Start test 1[0m
+*Welcome to the traffic management system!
+Input the number of roads: > 5
+Input the interval: > 3
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit
+> 0
+Bye!
+[1;31m
+Start test 2[0m
+*Welcome to the traffic management system!
+Input the number of roads: > 5
+Input the interval: > 3
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit
+> 1
+Road added
+> 
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit
+> 0
+Bye!
+[1;31m
+Start test 3[0m
+*Welcome to the traffic management system!
+Input the number of roads: > 5
+Input the interval: > 3
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit
+> 2
+Road deleted
+> 
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit
+> 0
+Bye!
+[1;31m
+Start test 4[0m
+[1;31m
+Start test 5[0m
+*Welcome to the traffic management system!
+!Input the number of roads: > asd
+(Error! Incorrect input. Try again: > -1
+(Error! Incorrect input. Try again: > 6-
+'Error! Incorrect input. Try again: > 0
+2Error! Incorrect input. Try again: > Hello world!
+'Error! Incorrect input. Try again: > 5
+Input the interval: > asd
+(Error! Incorrect input. Try again: > -1
+(Error! Incorrect input. Try again: > 6-
+'Error! Incorrect input. Try again: > 0
+2Error! Incorrect input. Try again: > Hello world!
+'Error! Incorrect input. Try again: > 5
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit
+> 0
+Bye!
+[1;31m
+Start test 6[0m
+*Welcome to the traffic management system!
+Input the number of roads: > 5
+Input the interval: > 3
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit
+> asd
+Incorrect option
+> 
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit
+> -1
+Incorrect option
+> 
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit
+> 6-
+Incorrect option
+> 
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit
+> Hello world!
+Incorrect option
+> 
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit
+> 4
+Incorrect option
+> 
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit
+> 5
+Incorrect option
+> 
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit
+> 0
+Bye!
+[1;31m
+Start test 7[0m
+*Welcome to the traffic management system!
+Input the number of roads: > 1
+Input the interval: > 1
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit
+> 3
+)! 2s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press "Enter" to open menu !
+)! 3s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press "Enter" to open menu !
+)! 4s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press "Enter" to open menu !
+)! 5s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press "Enter" to open menu !
+> 
+)! 6s. have passed since system startup !
+! Number of roads: 1 !
+! Interval: 1 !
+! Press "Enter" to open menu !
+Menu:
+1. Add road
+2. Delete road
+3. Open system
+0. Quit

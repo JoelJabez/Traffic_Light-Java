@@ -1,7 +1,7 @@
 package traffic.light;
 
-import java.util.Scanner;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class TrafficLight {
     Thread systemThread;
@@ -22,8 +22,6 @@ public class TrafficLight {
         numberOfIntervals = getInput("Input the interval: ");
 
         queue = new CircularQueue(numberOfRoads);
-        queue.time = numberOfIntervals;
-        queue.waitTime = numberOfIntervals;
 
         String input;
         createMenuThread();
@@ -52,24 +50,75 @@ public class TrafficLight {
         } while (true);
     }
 
+    private int getInput(String message) {
+        String stringNumber;
+        int number;
+        try {
+            System.out.print(message);
+            stringNumber = scanner.nextLine();
+            number = Integer.parseInt(stringNumber);
+
+            if (number < 1) {
+                return handleException();
+            }
+        } catch (NumberFormatException ime) {
+            return handleException();
+        }
+        return number;
+    }
+
+    private int handleException() {
+        String stringNumber;
+        int number;
+        do {
+            try {
+                System.out.print("Error! Incorrect input. Try again: ");
+                stringNumber = scanner.nextLine();
+                number = Integer.parseInt(stringNumber);
+                if (number >= 1) {
+                    return number;
+                }
+
+            } catch (NumberFormatException ignored) {
+            }
+        } while (true);
+    }
+
+    private void createMenuThread() {
+        menuThread = new Thread(() -> {
+            timer();
+        }, "QueueThread");
+    }
+
+    private void clearScreen() {
+        try {
+            var clearCommand = System.getProperty("os.name").contains("Windows")
+                    ? new ProcessBuilder("cmd", "/c", "cls")
+                    : new ProcessBuilder("clear");
+            clearCommand.inheritIO().start().waitFor();
+        } catch (IOException | InterruptedException ignored) {
+        }
+    }
+
+    private void printControlPanel() {
+        System.out.println("Menu:");
+        System.out.println("1. Add road");
+        System.out.println("2. Delete road");
+        System.out.println("3. Open system");
+        System.out.println("0. Quit");
+    }
+
     private void addRoad() {
         System.out.print("Input road name: ");
         String roadName = scanner.nextLine();
 
         queue.enqueue(roadName);
-        sleep(1000);
-        queue.time--;
-        queue.waitTime--;
 
         scanner.nextLine();
     }
 
     private void deleteRoad() {
         queue.dequeue();
-        sleep(1000);
-        queue.time--;
-        queue.waitTime--;
-
         scanner.nextLine();
     }
 
@@ -79,7 +128,6 @@ public class TrafficLight {
         stopThread = false;
         exit = null;
 
-        queue.setRange();
         createSystemThread();
         systemThread.start();
 
@@ -88,17 +136,6 @@ public class TrafficLight {
 
         createMenuThread();
         menuThread.start();
-    }
-
-    private void exit() {
-        System.out.println("Bye!");
-    }
-
-    private void sleep(int time) {
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException ignored) {
-        }
     }
 
     private void createSystemThread() {
@@ -122,63 +159,19 @@ public class TrafficLight {
     }
 
     private void timer() {
-        sleep(1000);
+        sleep();
         time++;
+        queue.trafficLightTimer();
     }
 
-    private void createMenuThread() {
-        menuThread = new Thread(this::timer, "QueueThread");
+    private void exit() {
+        System.out.println("Bye!");
     }
 
-    void printControlPanel() {
-        System.out.println("Menu:");
-        System.out.println("1. Add road");
-        System.out.println("2. Delete road");
-        System.out.println("3. Open system");
-        System.out.println("0. Quit");
-    }
-
-    void clearScreen() {
+    private void sleep() {
         try {
-            var clearCommand = System.getProperty("os.name").contains("Windows")
-                    ? new ProcessBuilder("cmd", "/c", "cls")
-                    : new ProcessBuilder("clear");
-            clearCommand.inheritIO().start().waitFor();
-        } catch (IOException | InterruptedException ignored) {
+            Thread.sleep(1000);
+        } catch (InterruptedException ignored) {
         }
-    }
-
-    int getInput(String message) {
-        String stringNumber;
-        int number;
-        try {
-            System.out.print(message);
-            stringNumber = scanner.nextLine();
-            number = Integer.parseInt(stringNumber);
-
-            if (number < 1) {
-                return handleException();
-            }
-        } catch (NumberFormatException ime) {
-            return handleException();
-        }
-        return number;
-    }
-
-    int handleException() {
-        String stringNumber;
-        int number;
-        do {
-            try {
-                System.out.print("Error! Incorrect input. Try again: ");
-                stringNumber = scanner.nextLine();
-                number = Integer.parseInt(stringNumber);
-                if (number >= 1) {
-                    return number;
-                }
-
-            } catch (NumberFormatException ignored) {
-            }
-        } while (true);
     }
 }

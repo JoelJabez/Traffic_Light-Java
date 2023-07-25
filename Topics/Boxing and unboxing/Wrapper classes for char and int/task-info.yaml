@@ -1,0 +1,24 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: Char; Int
+- text: Char; Integer
+- text: Character; Integer
+- text: Doesn't exist for Character; Integer for int.
+- text: Character; Int
+files:
+- name: src/Task.java
+  visible: true
+  text: |
+    // You can experiment here, it won’t be checked
+
+    public class Task {
+      public static void main(String[] args) {
+        // put your code here
+      }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/1964#comment
+status: Solved
+record: -1
+local_check: false

@@ -876,18 +876,39 @@ files:
 - name: buildAndRun.sh
   visible: true
   learner_created: true
-- name: src/sources.txt
-  visible: true
-  learner_created: true
-- name: src/traffic/Main.class
-  visible: true
-  learner_created: true
-- name: src/traffic/light/TrafficLight.class
-  visible: true
-  learner_created: true
-- name: src/traffic/light/CircularQueue.class
-  visible: true
-  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/22727#comment
-status: Unchecked
-record: -1
+status: Failed
+feedback:
+  message: "Wrong answer in test #13\n\nSome roads&#39; time to close/open is incorrect.\
+    \ Formal snippet of expected/got output:\n---Interval: 2---\n---Performed action:\
+    \ Started. Added 2 roads.---\n---Expected:---\nRoad0, open, 2s.\nRoad1, closed,\
+    \ 2s.\n---Got:---\nRoad0, open, 1s.\nRoad1, closed, 1s.\n\nPlease find below the\
+    \ output of your program during this failed test.\nNote that the &#39;&gt;&#39;\
+    \ character indicates the beginning of the input line.\n\n---\n\nWelcome to the\
+    \ traffic management system!\nInput the number of roads: &gt; 2\nInput the interval:\
+    \ &gt; 2\nMenu:\n1. Add road\n2. Delete road\n3. Open system\n0. Quit\n&gt; 1\n\
+    Input road name: &gt; n3w_v3ry_unu5u4l_r04d_n4m3_0\nn3w_v3ry_unu5u4l_r04d_n4m3_0\
+    \ Added!\n&gt; \nMenu:\n1. Add road\n2. Delete road\n3. Open system\n0. Quit\n\
+    &gt; 1\nInput road name: &gt; n3w_v3ry_unu5u4l_r04d_n4m3_1\nn3w_v3ry_unu5u4l_r04d_n4m3_1\
+    \ Added!\n&gt; \nMenu:\n1. Add road\n2. Delete road\n3. Open system\n0. Quit\n\
+    &gt; 3\n! 1s. have passed since system startup !\n! Number of roads: 2 !\n! Interval:\
+    \ 2 !\n\nn3w_v3ry_unu5u4l_r04d_n4m3_0 will be opened for 1s.\nn3w_v3ry_unu5u4l_r04d_n4m3_1\
+    \ will be closed for 1s.\n\n! Press &quot;Enter&quot; to open menu !\n! 2s. have\
+    \ passed since system startup !\n! Number of roads: 2 !\n! Interval: 2 !\n\nn3w_v3ry_unu5u4l_r04d_n4m3_0\
+    \ will be closed for 2s.\nn3w_v3ry_unu5u4l_r04d_n4m3_1 will be opened for 2s.\n\
+    \n! Press &quot;Enter&quot; to open menu !\n! 3s. have passed since system startup\
+    \ !\n! Number of roads: 2 !\n! Interval: 2 !\n\nn3w_v3ry_unu5u4l_r04d_n4m3_0 will\
+    \ be closed for 1s.\nn3w_v3ry_unu5u4l_r04d_n4m3_1 will be opened for 1s.\n\n!\
+    \ Press &quot;Enter&quot; to open menu !\n! 4s. have passed since system startup\
+    \ !\n! Number of roads: 2 !\n! Interval: 2 !\n\nn3w_v3ry_unu5u4l_r04d_n4m3_0 will\
+    \ be opened for 2s.\nn3w_v3ry_unu5u4l_r04d_n4m3_1 will be closed for 2s.\n\n!\
+    \ Press &quot;Enter&quot; to open menu !\n! 5s. have passed since system startup\
+    \ !\n! Number of roads: 2 !\n! Interval: 2 !\n\nn3w_v3ry_unu5u4l_r04d_n4m3_0 will\
+    \ be opened for 1s.\nn3w_v3ry_unu5u4l_r04d_n4m3_1 will be closed for 1s.\n\n!\
+    \ Press &quot;Enter&quot; to open menu !\n! 6s. have passed since system startup\
+    \ !\n! Number of roads: 2 !\n! Interval: 2 !\n\nn3w_v3ry_unu5u4l_r04d_n4m3_0 will\
+    \ be closed for 2s.\nn3w_v3ry_unu5u4l_r04d_n4m3_1 will be opened for 2s.\n\n!\
+    \ Press &quot;Enter&quot; to open menu !\n&gt; \nMenu:\n1. Add road\n2. Delete\
+    \ road\n3. Open system\n0. Quit\n&gt; 0\nBye!"
+  time: "Thu, 20 Jul 2023 09:37:12 UTC"
+record: 6

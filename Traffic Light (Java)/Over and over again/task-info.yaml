@@ -858,6 +858,15 @@ files:
 - name: src/traffic/light/CircularQueue.java
   visible: true
   learner_created: true
+- name: src/traffic/Main.class
+  visible: true
+  learner_created: true
+- name: src/traffic/light/TrafficLight.class
+  visible: true
+  learner_created: true
+- name: src/traffic/light/CircularQueue.class
+  visible: true
+  learner_created: true
 feedback_link: https://hyperskill.org/learn/step/22726#comment
 status: Solved
 feedback:

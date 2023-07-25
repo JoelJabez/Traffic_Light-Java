@@ -1,0 +1,24 @@
+type: choice
+is_multiple_choice: false
+options:
+- text: As instances of the standard class <b>Thread</b> and its subclasses
+- text: "As a special keyword with a corresponding block of a code: <b>thread { //\
+    \ statements to be executed }</b>"
+- text: As a group of special native methods
+- text: As instances of a special class from an external library
+files:
+- name: src/Task.java
+  visible: true
+  text: |
+    // You can experiment here, it won’t be checked
+
+    public class Task {
+      public static void main(String[] args) {
+        // put your code here
+      }
+    }
+  learner_created: false
+feedback_link: https://hyperskill.org/learn/step/2514#comment
+status: Solved
+record: -1
+local_check: false
